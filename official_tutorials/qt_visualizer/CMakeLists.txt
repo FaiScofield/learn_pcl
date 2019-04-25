@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.11)
 
-project(pcl_visualizer)
+#project(pcl_visualizer)
 
 # init_qt: Let's do the CMake job for us
 set(CMAKE_AUTOMOC ON) # For meta object compiler
@@ -22,8 +22,9 @@ list(REMOVE_ITEM PCL_LIBRARIES "vtkproj4")
 include_directories(${PCL_INCLUDE_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
-set(project_SOURCES main.cpp pclviewer.cpp)
+#set(project_SOURCES main.cpp pclviewer.cpp)
 
-add_executable(${PROJECT_NAME} ${project_SOURCES})
+#add_executable(${PROJECT_NAME} ${project_SOURCES})
 
-target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES} Qt5::Widgets)
+add_executable(qt_visualizer main.cpp pclviewer.cpp)
+target_link_libraries(qt_visualizer ${PCL_LIBRARIES} Qt5::Widgets)

@@ -45,7 +45,7 @@
 #include <pcl/point_types.h>
 #include <pcl/features/normal_3d.h>
 #include <pcl/features/principal_curvatures.h>
-
+#include <pcl/common/time.h>
 
 int
 main (int, char** argv)
@@ -63,6 +63,7 @@ main (int, char** argv)
 
   std::cout << "Loaded " << cloud->points.size () << " points." << std::endl;
 
+  pcl::ScopeTime scope_time("Principal Curvatures Estimation");
   // Compute the normals
   pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> normal_estimation;
   normal_estimation.setInputCloud (cloud);
@@ -96,8 +97,10 @@ main (int, char** argv)
   std::cout << "output points.size (): " << principal_curvatures->points.size () << std::endl;
 
   // Display and retrieve the shape context descriptor vector for the 0th point.
-  pcl::PrincipalCurvatures descriptor = principal_curvatures->points[0];
-  std::cout << descriptor << std::endl;
+  for (int i=1; i<10005; i*=10) {
+    pcl::PrincipalCurvatures descriptor = principal_curvatures->points[i];
+    std::cout << descriptor << std::endl;
+  }
 
   return 0;
 }

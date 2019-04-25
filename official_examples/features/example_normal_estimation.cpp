@@ -43,42 +43,60 @@
 #include <pcl/point_types.h>
 #include <pcl/features/normal_3d.h>
 #include <pcl/kdtree/kdtree_flann.h>
-
-int
-main (int, char** argv)
+#include <pcl/visualization/pcl_visualizer.h>
+#include <pcl/common/time.h>
+int main (int, char** argv)
 {
   std::string filename = argv[1];
   std::cout << "Reading " << filename << std::endl;
 
-  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
 
-  if (pcl::io::loadPCDFile<pcl::PointXYZ> (filename, *cloud) == -1) // load the file
-  {
-    PCL_ERROR ("Couldn't read file");
+  // load the file
+  if (pcl::io::loadPCDFile<pcl::PointXYZ> (filename, *cloud) == -1) {
+    PCL_ERROR("Couldn't read file");
     return -1;
   }
 
-  std::cout << "points: " << cloud->points.size () << std::endl;
+  std::cout << "points: " << cloud->points.size() << std::endl;
 
+  pcl::ScopeTime scope_time("~");
   // Create the normal estimation class, and pass the input dataset to it
   pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> normal_estimation;
-  normal_estimation.setInputCloud (cloud);
+  normal_estimation.setInputCloud(cloud);
 
   // Create an empty kdtree representation, and pass it to the normal estimation object.
   // Its content will be filled inside the object, based on the given input dataset (as no other search surface is given).
-  pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ>);
-  normal_estimation.setSearchMethod (tree);
+  pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>);
+  normal_estimation.setSearchMethod(tree);
 
   // Output datasets
-  pcl::PointCloud<pcl::Normal>::Ptr cloud_normals (new pcl::PointCloud<pcl::Normal>);
+  pcl::PointCloud<pcl::Normal>::Ptr cloud_normals(new pcl::PointCloud<pcl::Normal>);
 
   // Use all neighbors in a sphere of radius 3cm
-  normal_estimation.setRadiusSearch (0.03);
+  normal_estimation.setRadiusSearch(0.05);
 
   // Compute the features
-  normal_estimation.compute (*cloud_normals);
+  normal_estimation.compute(*cloud_normals);
 
   // cloud_normals->points.size () should have the same size as the input cloud->points.size ()
-  std::cout << "cloud_normals->points.size (): " << cloud_normals->points.size () << std::endl;
+  std::cout << "cloud_normals->points.size (): " << cloud_normals->points.size() << std::endl;
+
+  // visulization
+  boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("3D Viewer"));
+  viewer->setBackgroundColor(0, 0, 0);
+  pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> single_color(cloud, 0, 255, 0);
+  viewer->addPointCloud<pcl::PointXYZ>(cloud, single_color, "sample cloud");
+  viewer->addPointCloudNormals<pcl::PointXYZ, pcl::Normal> (cloud, cloud_normals, 5, 0.2, "normals");
+  viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 2, "sample cloud");
+  viewer->addCoordinateSystem(1.0);
+  viewer->initCameraParameters();
+
+  while (!viewer->wasStopped ()) {
+    viewer->spinOnce(100);
+    boost::this_thread::sleep (boost::posix_time::microseconds(100000));
+  }
+
+
   return 0;
 }

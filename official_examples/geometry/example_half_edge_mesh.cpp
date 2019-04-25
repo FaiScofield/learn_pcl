@@ -41,7 +41,7 @@
 #include <iostream>
 
 #include <pcl/geometry/polygon_mesh.h>
-
+#include <pcl/common/time.h>
 ////////////////////////////////////////////////////////////////////////////////
 
 // User data for the vertices. Here I just store an Id. In a 3D application this would be, for example
@@ -142,6 +142,8 @@ printFaces (const Mesh& mesh)
 
 int main ()
 {
+  pcl::ScopeTime scope_time("~");
+
   Mesh          mesh;
   VertexIndices vi;
 

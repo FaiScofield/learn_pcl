@@ -43,7 +43,7 @@
 // PCL
 #include <pcl/point_types.h>
 #include <pcl/filters/extract_indices.h>
-
+#include <pcl/common/time.h>
 int
 main (int, char**)
 {
@@ -60,6 +60,7 @@ main (int, char**)
 
   std::cout << "Cloud has " << cloud->points.size () << " points." << std::endl;
 
+  pcl::ScopeTime scope_time("~");
   pcl::PointIndices indices;
   indices.indices.push_back (0);
   indices.indices.push_back (2);

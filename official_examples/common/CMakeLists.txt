@@ -1,9 +1,14 @@
-PCL_ADD_EXAMPLE(pcl_example_copy_point_cloud FILES example_copy_point_cloud.cpp LINK_WITH pcl_common)
+cmake_minimum_required(VERSION 2.8)
 
-PCL_ADD_EXAMPLE(pcl_example_scope_time FILES example_scope_time.cpp LINK_WITH pcl_common)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/official_examples)
 
-PCL_ADD_EXAMPLE(pcl_example_organized_point_cloud FILES example_organized_point_cloud.cpp LINK_WITH pcl_common)
-
-PCL_ADD_EXAMPLE(pcl_example_check_if_point_is_valid FILES example_check_if_point_is_valid.cpp LINK_WITH pcl_common)
-
-PCL_ADD_EXAMPLE(pcl_example_get_max_min_coordinates FILES example_get_max_min_coordinates.cpp LINK_WITH pcl_common pcl_io)
+add_executable(pcl_example_copy_point_cloud example_copy_point_cloud.cpp)
+add_executable(pcl_example_scope_time example_scope_time.cpp)
+add_executable(pcl_example_organized_point_cloud example_organized_point_cloud.cpp)
+add_executable(pcl_example_check_if_point_is_valid example_check_if_point_is_valid.cpp)
+add_executable(pcl_example_get_max_min_coordinates example_get_max_min_coordinates.cpp)
+target_link_libraries (pcl_example_copy_point_cloud ${PCL_LIBRARIES})
+target_link_libraries (pcl_example_scope_time ${PCL_LIBRARIES})
+target_link_libraries (pcl_example_organized_point_cloud ${PCL_LIBRARIES})
+target_link_libraries (pcl_example_check_if_point_is_valid ${PCL_LIBRARIES})
+target_link_libraries (pcl_example_get_max_min_coordinates ${PCL_LIBRARIES})

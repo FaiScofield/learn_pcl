@@ -46,7 +46,7 @@
 #include <pcl/point_types.h>
 #include <pcl/features/normal_3d.h>
 #include <pcl/features/spin_image.h>
-
+#include <pcl/common/time.h>
 int
 main (int, char** argv)
 {
@@ -62,6 +62,7 @@ main (int, char** argv)
   }
   std::cout << "Loaded " << cloud->points.size () << " points." << std::endl;
 
+  pcl::ScopeTime scope_time("~");
   // Compute the normals
   pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> normal_estimation;
   normal_estimation.setInputCloud (cloud);
@@ -70,18 +71,19 @@ main (int, char** argv)
   normal_estimation.setSearchMethod (kdtree);
 
   pcl::PointCloud<pcl::Normal>::Ptr normals (new pcl::PointCloud< pcl::Normal>);
-  normal_estimation.setRadiusSearch (0.03);
+  normal_estimation.setRadiusSearch (0.05);
   normal_estimation.compute (*normals);
 
   // Setup spin image computation
   pcl::SpinImageEstimation<pcl::PointXYZ, pcl::Normal, pcl::Histogram<153> > spin_image_descriptor(8, 0.5, 16);
   spin_image_descriptor.setInputCloud (cloud);
   spin_image_descriptor.setInputNormals (normals);
+  spin_image_descriptor.setMinPointCountInNeighbourhood(3);
 
   // Use the same KdTree from the normal estimation
   spin_image_descriptor.setSearchMethod (kdtree);
   pcl::PointCloud<pcl::Histogram<153> >::Ptr spin_images (new pcl::PointCloud<pcl::Histogram<153> >);
-  spin_image_descriptor.setRadiusSearch (0.2);
+  spin_image_descriptor.setRadiusSearch (1);
 
   // Actually compute the spin images
   spin_image_descriptor.compute (*spin_images);

@@ -11,8 +11,7 @@
 
 pcl::visualization::PCLVisualizer viewer ("Curve Fitting PDM (red), SDM (green), TDM (blue)");
 
-void
-PointCloud2Vector2d (pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::on_nurbs::vector_vec2d &data)
+void PointCloud2Vector2d (pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::on_nurbs::vector_vec2d &data)
 {
   for (unsigned i = 0; i < cloud->size (); i++)
   {
@@ -22,8 +21,7 @@ PointCloud2Vector2d (pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::on_nurbs::v
   }
 }
 
-void
-VisualizeCurve (ON_NurbsCurve &curve, double r, double g, double b, bool show_cps)
+void VisualizeCurve (ON_NurbsCurve &curve, double r, double g, double b, bool show_cps)
 {
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZRGB>);
   pcl::on_nurbs::Triangulation::convertCurve2PointCloud (curve, cloud, 8);
@@ -56,8 +54,7 @@ VisualizeCurve (ON_NurbsCurve &curve, double r, double g, double b, bool show_cp
   }
 }
 
-int
-main (int argc, char *argv[])
+int main (int argc, char *argv[])
 {
   std::string pcd_file;
 

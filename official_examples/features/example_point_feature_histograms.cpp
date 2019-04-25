@@ -44,7 +44,7 @@
 #include <pcl/point_types.h>
 #include <pcl/features/pfh.h>
 #include <pcl/features/normal_3d.h>
-
+#include <pcl/common/time.h>
 int
 main (int, char** argv)
 {
@@ -61,6 +61,7 @@ main (int, char** argv)
 
   std::cout << "Loaded " << cloud->points.size () << " points." << std::endl;
 
+  pcl::ScopeTime scope_time("~");
   // Compute the normals
   pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> normal_estimation;
   normal_estimation.setInputCloud (cloud);

@@ -31,14 +31,13 @@ main (int argc, char **argv)
   PointCloudT::Ptr scene (new PointCloudT);
   FeatureCloudT::Ptr object_features (new FeatureCloudT);
   FeatureCloudT::Ptr scene_features (new FeatureCloudT);
-  
+
   // Get input object and scene
-  if (argc != 3)
-  {
+  if (argc != 3) {
     pcl::console::print_error ("Syntax is: %s object.pcd scene.pcd\n", argv[0]);
     return (1);
   }
-  
+
   // Load object and scene
   pcl::console::print_highlight ("Loading point clouds...\n");
   if (pcl::io::loadPCDFile<PointNT> (argv[1], *object) < 0 ||
@@ -47,7 +46,7 @@ main (int argc, char **argv)
     pcl::console::print_error ("Error loading object/scene file!\n");
     return (1);
   }
-  
+
   // Downsample
   pcl::console::print_highlight ("Downsampling...\n");
   pcl::VoxelGrid<PointNT> grid;
@@ -57,14 +56,14 @@ main (int argc, char **argv)
   grid.filter (*object);
   grid.setInputCloud (scene);
   grid.filter (*scene);
-  
+
   // Estimate normals for scene
   pcl::console::print_highlight ("Estimating scene normals...\n");
   pcl::NormalEstimationOMP<PointNT,PointNT> nest;
   nest.setRadiusSearch (0.01);
   nest.setInputCloud (scene);
   nest.compute (*scene);
-  
+
   // Estimate features
   pcl::console::print_highlight ("Estimating features...\n");
   FeatureEstimationT fest;
@@ -75,7 +74,7 @@ main (int argc, char **argv)
   fest.setInputCloud (scene);
   fest.setInputNormals (scene);
   fest.compute (*scene_features);
-  
+
   // Perform alignment
   pcl::console::print_highlight ("Starting alignment...\n");
   pcl::SampleConsensusPrerejective<PointNT,PointNT,FeatureT> align;
@@ -93,7 +92,7 @@ main (int argc, char **argv)
     pcl::ScopeTime t("Alignment");
     align.align (*object_aligned);
   }
-  
+
   if (align.hasConverged ())
   {
     // Print results
@@ -106,7 +105,7 @@ main (int argc, char **argv)
     pcl::console::print_info ("t = < %0.3f, %0.3f, %0.3f >\n", transformation (0,3), transformation (1,3), transformation (2,3));
     pcl::console::print_info ("\n");
     pcl::console::print_info ("Inliers: %i/%i\n", align.getInliers ().size (), object->size ());
-    
+
     // Show alignment
     pcl::visualization::PCLVisualizer visu("Alignment");
     visu.addPointCloud (scene, ColorHandlerT (scene, 0.0, 255.0, 0.0), "scene");
@@ -118,6 +117,6 @@ main (int argc, char **argv)
     pcl::console::print_error ("Alignment failed!\n");
     return (1);
   }
-  
+
   return (0);
 }

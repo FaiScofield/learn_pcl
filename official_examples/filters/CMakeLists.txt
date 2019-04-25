@@ -1,5 +1,9 @@
-PCL_ADD_EXAMPLE(pcl_example_remove_nan_from_point_cloud FILES example_remove_nan_from_point_cloud.cpp
-                LINK_WITH pcl_common pcl_filters)
+cmake_minimum_required(VERSION 2.8)
 
-PCL_ADD_EXAMPLE(pcl_example_extract_indices FILES example_extract_indices.cpp
-                LINK_WITH pcl_common pcl_filters)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/official_examples)
+
+add_executable(pcl_example_remove_nan_from_point_cloud example_remove_nan_from_point_cloud.cpp)
+add_executable(pcl_example_extract_indices example_extract_indices.cpp)
+
+target_link_libraries (pcl_example_remove_nan_from_point_cloud ${PCL_LIBRARIES})
+target_link_libraries (pcl_example_extract_indices ${PCL_LIBRARIES})

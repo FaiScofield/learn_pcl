@@ -11,7 +11,7 @@
 
 #include <pcl/common/common.h>
 #include <pcl/console/print.h>
-#include <pcl/io/ensenso_grabber.h>
+//#include <pcl/io/ensenso_grabber.h>
 #include <pcl/console/time.h>
 #include <pcl/visualization/cloud_viewer.h>
 

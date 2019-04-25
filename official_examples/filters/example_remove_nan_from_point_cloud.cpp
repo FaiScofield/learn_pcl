@@ -45,10 +45,11 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/filters/filter.h>
-
+#include <pcl/common/time.h>
 int
 main (int, char**)
 {
+  pcl::ScopeTime scope_time("~");
   typedef pcl::PointCloud<pcl::PointXYZ> CloudType;
   CloudType::Ptr cloud (new CloudType);
   cloud->is_dense = false;

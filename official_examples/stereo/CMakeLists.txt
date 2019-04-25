@@ -1,8 +1,4 @@
-if(NOT BUILD_visualization)
-  return()
-endif()
-
-PCL_SUBSYS_DEPEND(build ${SUBSYS_NAME} DEPS visualization)
+cmake_minimum_required(VERSION 2.8)
 
 ## Find VTK
 if(NOT VTK_FOUND)
@@ -14,5 +10,7 @@ else()
   include(${VTK_USE_FILE})
 endif()
 
-PCL_ADD_EXAMPLE(pcl_example_stereo_baseline FILES example_stereo_baseline.cpp
-                LINK_WITH pcl_common pcl_visualization pcl_stereo pcl_io)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/official_examples)
+
+add_executable(pcl_example_stereo_baseline example_stereo_baseline.cpp)
+target_link_libraries (pcl_example_stereo_baseline ${PCL_LIBRARIES})

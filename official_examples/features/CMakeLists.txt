@@ -1,23 +1,22 @@
-PCL_ADD_EXAMPLE(pcl_example_fast_point_feature_histograms FILES example_fast_point_feature_histograms.cpp
-                LINK_WITH pcl_common pcl_kdtree pcl_search pcl_features pcl_io)
+cmake_minimum_required(VERSION 2.8)
 
-PCL_ADD_EXAMPLE(pcl_example_normal_estimation FILES example_normal_estimation.cpp
-                LINK_WITH pcl_common pcl_kdtree pcl_search pcl_features pcl_io)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/official_examples)
 
-PCL_ADD_EXAMPLE(pcl_example_point_feature_histograms FILES example_point_feature_histograms.cpp
-                LINK_WITH pcl_common pcl_kdtree pcl_search pcl_features pcl_io)
+add_executable(pcl_example_fast_point_feature_histograms example_fast_point_feature_histograms.cpp)
+add_executable(pcl_example_normal_estimation example_normal_estimation.cpp)
+add_executable(pcl_example_point_feature_histograms example_point_feature_histograms.cpp)
+add_executable(pcl_example_principal_curvatures_estimation example_principal_curvatures_estimation.cpp)
+#add_executable(pcl_example_shape_contexts example_shape_contexts.cpp)
+add_executable(pcl_example_spin_images example_spin_images.cpp)
+add_executable(pcl_example_rift_estimation example_rift_estimation.cpp)
+add_executable(pcl_example_difference_of_normals example_difference_of_normals.cpp)
 
-PCL_ADD_EXAMPLE(pcl_example_principal_curvatures_estimation FILES example_principal_curvatures_estimation.cpp
-                LINK_WITH pcl_common pcl_kdtree pcl_search pcl_features pcl_io)
+target_link_libraries (pcl_example_fast_point_feature_histograms ${PCL_LIBRARIES})
+target_link_libraries (pcl_example_normal_estimation ${PCL_LIBRARIES})
+target_link_libraries (pcl_example_point_feature_histograms ${PCL_LIBRARIES})
+target_link_libraries (pcl_example_principal_curvatures_estimation ${PCL_LIBRARIES})
+#target_link_libraries (pcl_example_shape_contexts ${PCL_LIBRARIES})
+target_link_libraries (pcl_example_spin_images ${PCL_LIBRARIES})
+target_link_libraries (pcl_example_rift_estimation ${PCL_LIBRARIES})
+target_link_libraries (pcl_example_difference_of_normals ${PCL_LIBRARIES})
 
-PCL_ADD_EXAMPLE(pcl_example_shape_contexts FILES example_shape_contexts.cpp
-LINK_WITH pcl_common pcl_kdtree pcl_search pcl_features pcl_io)
-
-PCL_ADD_EXAMPLE(pcl_example_spin_images FILES example_spin_images.cpp
-                LINK_WITH pcl_common pcl_kdtree pcl_search pcl_features pcl_io)
-
-PCL_ADD_EXAMPLE(pcl_example_rift_estimation FILES example_rift_estimation.cpp
-                LINK_WITH pcl_common pcl_kdtree pcl_search pcl_features pcl_io)
-
-PCL_ADD_EXAMPLE(pcl_example_difference_of_normals FILES example_difference_of_normals.cpp
-                LINK_WITH pcl_common pcl_kdtree pcl_search pcl_features pcl_io pcl_segmentation pcl_sample_consensus)

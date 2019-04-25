@@ -16,16 +16,18 @@
 class SimpleOpenNIViewer
 {
 public:
-  SimpleOpenNIViewer () :
-    viewer (" Point Cloud Compression Example")
+  SimpleOpenNIViewer() : viewer (" Point Cloud Compression Example") {}
+
+  ~SimpleOpenNIViewer()
   {
+    // delete point cloud compression instances
+    delete (PointCloudEncoder);
+    delete (PointCloudDecoder);
   }
 
-  void
-  cloud_cb_ (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr &cloud)
+  void cloud_cb_ (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr &cloud)
   {
-    if (!viewer.wasStopped ())
-    {
+    if (!viewer.wasStopped ()) {
       // stringstream to store compressed point cloud
       std::stringstream compressedData;
       // output pointcloud
@@ -43,10 +45,8 @@ public:
     }
   }
 
-  void
-  run ()
+  void run ()
   {
-
     bool showStatistics = true;
 
     // for a full list of profiles see: /io/include/pcl/compression/compression_profiles.h
@@ -75,13 +75,9 @@ public:
     }
 
     interface->stop ();
-
-    // delete point cloud compression instances
-    delete (PointCloudEncoder);
-    delete (PointCloudDecoder);
-
   }
 
+public:
   pcl::visualization::CloudViewer viewer;
 
   pcl::io::OctreePointCloudCompression<pcl::PointXYZRGBA>* PointCloudEncoder;
@@ -89,8 +85,7 @@ public:
 
 };
 
-int
-main (int argc, char **argv)
+int main (int argc, char **argv)
 {
   SimpleOpenNIViewer v;
   v.run ();

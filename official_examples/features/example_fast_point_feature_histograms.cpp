@@ -45,13 +45,12 @@
 #include <pcl/point_types.h>
 #include <pcl/features/fpfh.h>
 #include <pcl/features/normal_3d.h>
-
+#include <pcl/common/time.h>
 int
 main (int argc, char** argv)
 {
-  if (argc < 2)
-  {
-    throw std::runtime_error ("Required arguments: filename.pcd");
+  if (argc < 2) {
+    throw std::runtime_error("Required arguments: filename.pcd");
   }
 
   std::string fileName = argv[1];
@@ -67,6 +66,7 @@ main (int argc, char** argv)
 
   std::cout << "Loaded " << cloud->points.size () << " points." << std::endl;
 
+  pcl::ScopeTime scope_time("~");
   // Compute the normals
   pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> normal_estimation;
   normal_estimation.setInputCloud (cloud);
@@ -76,7 +76,7 @@ main (int argc, char** argv)
 
   pcl::PointCloud<pcl::Normal>::Ptr cloud_with_normals (new pcl::PointCloud<pcl::Normal>);
 
-  normal_estimation.setRadiusSearch (0.03);
+  normal_estimation.setRadiusSearch (0.05);
 
   normal_estimation.compute (*cloud_with_normals);
 

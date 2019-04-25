@@ -44,9 +44,9 @@
 
 #include <pcl/outofcore/boost.h>
 
-#include<pcl/point_types.h>
+#include <pcl/point_types.h>
 #include <pcl/PCLPointCloud2.h>
-
+#include <pcl/common/time.h>
 using namespace pcl::outofcore;
 
 typedef OutofcoreOctreeBase<OutofcoreOctreeDiskContainer<pcl::PointXYZ>, pcl::PointXYZ> OctreeDisk;
@@ -55,26 +55,27 @@ typedef OutofcoreOctreeBaseNode<OutofcoreOctreeDiskContainer<pcl::PointXY>, pcl:
 int main (int, char** argv)
 {
 
+    pcl::ScopeTime scope_time("~");
   //Find all PCD files located in argv[1] directory
 
   int depth = 3;
   Eigen::Vector3d min (-10.0, -10.0, -10.0);
   Eigen::Vector3d max (10.0, 10.0, 10.0);
   boost::filesystem::path file_location ("tree/tree.oct_idx");
-  
+
   OctreeDisk* octree;
-  
+
   octree = new OctreeDisk (depth, min, max, file_location, "ECEF");
 
   pcl::PCLPointCloud2::Ptr cloud (new pcl::PCLPointCloud2 ());
-    
+
   pcl::io::loadPCDFile (argv[1], *cloud);
-  
+
   octree->addPointCloud (cloud, false);
 
   octree->setSamplePercent (0.125);
 
   octree->buildLOD ();
-  
+
   return (0);
 }

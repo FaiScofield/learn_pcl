@@ -7,6 +7,7 @@
 #include <pcl/surface/on_nurbs/fitting_curve_2d_asdm.h>
 #include <pcl/surface/on_nurbs/triangulation.h>
 
+
 typedef pcl::PointXYZ Point;
 
 void

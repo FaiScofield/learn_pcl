@@ -2,7 +2,7 @@
 #include <pcl/stereo/stereo_matching.h>
 #include <pcl/visualization/pcl_visualizer.h>
 #include <pcl/visualization/image_viewer.h>
-
+#include <pcl/common/time.h>
 #include <pcl/io/pcd_io.h>
 
 /** \brief Stereo Matching demo
@@ -16,7 +16,7 @@
   * \ingroup stereo
   */
 
-int 
+int
 main(int argc, char **argv)
 {
 
@@ -31,7 +31,7 @@ main(int argc, char **argv)
 
   //Read pcd files
   pcl::PCDReader pcd;
-  
+
   if (pcd.read (argv[1], *left_cloud) == -1)
     return (-1);
 
@@ -40,10 +40,11 @@ main(int argc, char **argv)
 
   if (!left_cloud->isOrganized () || !right_cloud->isOrganized () || left_cloud->width != right_cloud->width || left_cloud->height != right_cloud->height)
   {
-    std::cout << "Wrong stereo pair; please check input pcds .." << std::endl; 
+    std::cout << "Wrong stereo pair; please check input pcds .." << std::endl;
     return 0;
   }
 
+  pcl::ScopeTime scope_time("~");
   //choice between the two algorithms:
   //pcl::AdaptiveCostSOStereoMatching stereo;
   pcl::BlockBasedStereoMatching stereo;
@@ -78,13 +79,13 @@ main(int argc, char **argv)
   stereo.getVisualMap(vmap);
 
   pcl::visualization::ImageViewer iv ("My viewer");
-  iv.addRGBImage<pcl::RGB> (vmap); 
+  iv.addRGBImage<pcl::RGB> (vmap);
   //iv.addRGBImage<pcl::RGB> (left_cloud);
   //iv.spin (); // press 'q' to exit
 
   boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer (new pcl::visualization::PCLVisualizer ("3D Viewer"));
   viewer->setBackgroundColor (0, 0, 0);
-  
+
   //viewer->addPointCloud<pcl::PointXYZRGB> (out_cloud, "stereo");
   pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> intensity(out_cloud);
   viewer->addPointCloud<pcl::PointXYZRGB> (out_cloud, intensity, "stereo");

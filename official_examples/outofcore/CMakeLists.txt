@@ -1,6 +1,4 @@
-if(NOT BUILD_outofcore)
-  return()
-endif()
+cmake_minimum_required(VERSION 2.8)
 
 # Find VTK
 if(NOT VTK_FOUND)
@@ -12,6 +10,9 @@ else()
   include(${VTK_USE_FILE})
 endif()
 
-PCL_SUBSYS_DEPEND (build ${SUBSYS_NAME} DEPS outofcore io common octree filters visualization EXT_DEPS vtk)
-PCL_ADD_EXAMPLE (pcl_example_outofcore_with_lod FILES example_outofcore_with_lod.cpp LINK_WITH pcl_outofcore pcl_common pcl_io pcl_octree pcl_filters)
-PCL_ADD_EXAMPLE (pcl_example_outofcore FILES example_outofcore.cpp LINK_WITH pcl_outofcore pcl_common pcl_io pcl_octree pcl_filters)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/official_examples)
+
+add_executable (pcl_example_outofcore_with_lod example_outofcore_with_lod.cpp)
+add_executable (pcl_example_outofcore example_outofcore.cpp)
+target_link_libraries (pcl_example_outofcore_with_lod ${PCL_LIBRARIES})
+target_link_libraries (pcl_example_outofcore ${PCL_LIBRARIES})

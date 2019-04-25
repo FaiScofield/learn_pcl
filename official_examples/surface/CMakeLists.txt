@@ -1,8 +1,4 @@
-if(NOT (BUILD_surface_on_nurbs AND BUILD_visualization))
-  return()
-endif()
-
-PCL_SUBSYS_DEPEND(build ${SUBSYS_NAME} DEPS visualization geometry surface)
+cmake_minimum_required(VERSION 2.8)
 
 ## Find VTK
 if(NOT VTK_FOUND)
@@ -14,26 +10,29 @@ else()
   include(${VTK_USE_FILE})
 endif()
 
-PCL_ADD_EXAMPLE(pcl_test_nurbs_fitting_surface
-                FILES test_nurbs_fitting_surface.cpp
-                LINK_WITH pcl_common pcl_io pcl_surface pcl_visualization)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/official_examples)
 
-PCL_ADD_EXAMPLE(pcl_example_nurbs_fitting_surface
-                FILES example_nurbs_fitting_surface.cpp
-                LINK_WITH pcl_common pcl_io pcl_surface pcl_visualization)
+#add_executable(pcl_test_nurbs_fitting_surface
+#                test_nurbs_fitting_surface.cpp)
 
-PCL_ADD_EXAMPLE(pcl_example_nurbs_viewer_surface
-                FILES example_nurbs_viewer_surface.cpp
-                LINK_WITH pcl_common pcl_io pcl_surface pcl_visualization)
+#add_executable(pcl_example_nurbs_fitting_surface
+#                example_nurbs_fitting_surface.cpp)
 
-PCL_ADD_EXAMPLE(pcl_example_nurbs_fitting_closed_curve
-                FILES example_nurbs_fitting_closed_curve.cpp
-                LINK_WITH pcl_common pcl_io pcl_surface pcl_visualization)
+#add_executable(pcl_example_nurbs_viewer_surface
+#                example_nurbs_viewer_surface.cpp )
 
-PCL_ADD_EXAMPLE(pcl_example_nurbs_fitting_curve2d
-                FILES example_nurbs_fitting_curve2d.cpp
-                LINK_WITH pcl_common pcl_io pcl_surface pcl_visualization)
+#add_executable(pcl_example_nurbs_fitting_closed_curve
+#                example_nurbs_fitting_closed_curve.cpp)
 
-PCL_ADD_EXAMPLE(pcl_example_nurbs_fitting_closed_curve3d
-                FILES example_nurbs_fitting_closed_curve3d.cpp
-                LINK_WITH pcl_common pcl_io pcl_surface pcl_visualization)
+#add_executable(pcl_example_nurbs_fitting_curve2d
+#                example_nurbs_fitting_curve2d.cpp)
+
+#add_executable(pcl_example_nurbs_fitting_closed_curve3d
+#                example_nurbs_fitting_closed_curve3d.cpp)
+
+#target_link_libraries (pcl_test_nurbs_fitting_surface ${PCL_LIBRARIES})
+#target_link_libraries (pcl_example_nurbs_fitting_surface ${PCL_LIBRARIES})
+#target_link_libraries (pcl_example_nurbs_viewer_surface ${PCL_LIBRARIES})
+#target_link_libraries (pcl_example_nurbs_fitting_closed_curve ${PCL_LIBRARIES})
+#target_link_libraries (pcl_example_nurbs_fitting_curve2d ${PCL_LIBRARIES})
+#target_link_libraries (pcl_example_nurbs_fitting_closed_curve3d ${PCL_LIBRARIES})

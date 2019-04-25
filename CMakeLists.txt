@@ -10,9 +10,14 @@ MESSAGE("Build type: " ${CMAKE_BUILD_TYPE})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-find_package(PCL  REQUIRED)
+#set(PCL_DIR "/home/softwares/pcl-1.9.1/install")
+find_package(PCL REQUIRED)
 find_package(Boost COMPONENTS program_options REQUIRED )
 
+#message("====================================================================================")
+#message("PCL Headers: ${PCL_INCLUDE_DIRS}")
+#message("PCL LIBS DIR: ${PCL_LIBRARY_DIRS}")
+#message("PCL LIBS: ${PCL_LIBRARIES}")
 
 include_directories(
 #    ${PROJECT_SOURCE_DIR}/include
@@ -26,16 +31,10 @@ link_directories(
 )
 
 subdirs(src)
-subdirs(official_examples)
+#subdirs(official_examples)
 subdirs(official_tutorials)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
-#add_executable(bin2pcd src/bin2pcd.cpp)
-#target_link_libraries (bin2pcd ${PCL_LIBRARIES} ${Boost_LIBRARIES})
-
-#add_executable(PFH src/PFH.cpp)
-#target_link_libraries(PFH ${PCL_LIBRARIES})
-
-#add_executable(visualizer src/visualization/visualizer.cpp)
-#target_link_libraries(visualizer ${PCL_LIBRARIES})
+add_executable(pcd2csv src/pcd2csv.cpp)
+target_link_libraries(pcd2csv ${PCL_LIBRARY_DIRS})

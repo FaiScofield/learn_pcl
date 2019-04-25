@@ -11,7 +11,7 @@ using namespace std;
 using namespace pcl::visualization;
 
 void
-generateData (double *ax, double *acos, double *asin, int numPoints)
+generateData (double *ax, double *acos, double *asin, size_t numPoints)
 {
   double inc = 7.5 / (numPoints - 1);
   for (int i = 0; i < numPoints; ++i)
@@ -22,7 +22,7 @@ generateData (double *ax, double *acos, double *asin, int numPoints)
   }
 }
 
-//.....................callback functions defining Y= f(X)....................
+//.....................callback functions defining Y = f(X)....................
 double
 step (double val)
 {
@@ -46,10 +46,10 @@ main (int argc, char * argv [])
   PCLPlotter *plotter = new PCLPlotter ("My Plotter");
 
   //setting some properties
-  plotter->setShowLegend (true);
+  plotter->setShowLegend (true); // 显示图例
 
   //generating point correspondances
-  int numPoints = 69;
+  size_t numPoints = 69;
   double ax[100], acos[100], asin[100];
   generateData (ax, acos, asin, numPoints);
 
@@ -60,17 +60,17 @@ main (int argc, char * argv [])
   //display for 2 seconds
   plotter->spinOnce (3000);
   plotter->clearPlots ();
-  
-  
+
+
   //...................plotting implicit functions and custom callbacks....................
 
   //make a fixed axis
   plotter->setYRange (-10, 10);
 
-  //defining polynomials
-  vector<double> func1 (1, 0);
+  // defining polynomials
+  vector<double> func1 (1, 0);  // 多项式系数，(1)表示 y = 1
   func1[0] = 1; //y = 1
-  vector<double> func2 (3, 0);
+  vector<double> func2 (3, 0);  // 多项式系数，(0, 0, 1)表示 y = 0 + 0*x + 1*x^2
   func2[2] = 1; //y = x^2
 
   plotter->addPlotData (std::make_pair (func1, func2), -10, 10, "y = 1/x^2", 100, vtkChart::POINTS);
@@ -93,9 +93,8 @@ main (int argc, char * argv [])
 
   //........................A simple animation..............................
   vector<double> fsq (3, 0);
-  fsq[2] = -100; //y = x^2
-  while (!plotter->wasStopped ())
-  {
+  fsq[2] = -100; //y = fsq[2] * x^2
+  while (!plotter->wasStopped ()) {
     if (fsq[2] == 100) fsq[2] = -100;
     fsq[2]++;
     char str[50];

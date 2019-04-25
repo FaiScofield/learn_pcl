@@ -48,7 +48,7 @@
 #include <pcl/kdtree/kdtree_flann.h>
 #include <pcl/features/rift.h>
 #include <pcl/features/intensity_gradient.h>
-
+#include <pcl/common/time.h>
 int
 main (int, char** argv)
 {
@@ -65,6 +65,7 @@ main (int, char** argv)
 
   std::cout << "points: " << cloud->points.size () << std::endl;
 
+  pcl::ScopeTime scope_time("~");
   // Estimate the surface normals
   pcl::PointCloud<pcl::Normal>::Ptr cloud_n (new pcl::PointCloud<pcl::Normal>);
   pcl::NormalEstimation<pcl::PointXYZI, pcl::Normal> norm_est;
@@ -76,7 +77,7 @@ main (int, char** argv)
 
   std::cout<<" Surface normals estimated";
   std::cout<<" with size "<< cloud_n->points.size() <<std::endl;
- 
+
   // Estimate the Intensity Gradient
   pcl::PointCloud<pcl::IntensityGradient>::Ptr cloud_ig (new pcl::PointCloud<pcl::IntensityGradient>);
   pcl::IntensityGradientEstimation<pcl::PointXYZI, pcl::Normal, pcl::IntensityGradient> gradient_est;
@@ -104,7 +105,7 @@ main (int, char** argv)
 
   std::cout<<" RIFT feature estimated";
   std::cout<<" with size "<<rift_output.points.size()<<std::endl;
-  
+
   // Display and retrieve the rift descriptor vector for the first point
   pcl::Histogram<32> first_descriptor = rift_output.points[0];
   std::cout << first_descriptor << std::endl;

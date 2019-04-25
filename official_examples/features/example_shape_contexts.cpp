@@ -45,9 +45,10 @@
 #include <pcl/features/3dsc.h>
 #include <pcl/features/impl/3dsc.hpp>
 #include <pcl/features/normal_3d.h>
+#include <pcl/common/time.h>
+#include <pcl/filters/filter.h>
 
-int
-main (int, char** argv)
+int main (int, char** argv)
 {
   std::string filename = argv[1];
   std::cout << "Reading " << filename << std::endl;
@@ -61,6 +62,8 @@ main (int, char** argv)
   }
   std::cout << "Loaded " << cloud->points.size () << " points." << std::endl;
 
+
+  pcl::ScopeTime scope_time("~");
   // Compute the normals
   pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> normal_estimation;
   normal_estimation.setInputCloud (cloud);

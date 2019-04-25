@@ -48,8 +48,8 @@
 #include <pcl/keypoints/sift_keypoint.h>
 #include <pcl/keypoints/impl/sift_keypoint.hpp>
 #include <pcl/features/normal_3d.h>
-// #include <pcl/visualization/pcl_visualizer.h>
-	
+#include <pcl/visualization/pcl_visualizer.h>
+#include <pcl/common/time.h>
 int
 main(int, char** argv)
 {
@@ -62,14 +62,15 @@ main(int, char** argv)
   return -1;
   }
   std::cout << "points: " << cloud->points.size () <<std::endl;
-  
+
   // Parameters for sift computation
   const float min_scale = 0.1f;
   const int n_octaves = 6;
   const int n_scales_per_octave = 10;
   const float min_contrast = 0.5f;
-  
-  
+
+  pcl::ScopeTime scope_time("~");
+
   // Estimate the sift interest points using Intensity values from RGB values
   pcl::SIFTKeypoint<pcl::PointXYZRGB, pcl::PointWithScale> sift;
   pcl::PointCloud<pcl::PointWithScale> result;
@@ -79,17 +80,17 @@ main(int, char** argv)
   sift.setMinimumContrast(min_contrast);
   sift.setInputCloud(cloud);
   sift.compute(result);
-  
+
   // Copying the pointwithscale to pointxyz so as visualize the cloud
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_temp (new pcl::PointCloud<pcl::PointXYZ>);
   copyPointCloud(result, *cloud_temp);
 
-  // Saving the resultant cloud 
+  // Saving the resultant cloud
   std::cout << "Resulting sift points are of size: " << cloud_temp->points.size () <<std::endl;
   pcl::io::savePCDFileASCII("sift_points.pcd", *cloud_temp);
 
-  
-/*  
+
+/*
   // Visualization of keypoints along with the original cloud
   pcl::visualization::PCLVisualizer viewer("PCL Viewer");
   pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> keypoints_color_handler (cloud_temp, 0, 255, 0);
@@ -98,14 +99,14 @@ main(int, char** argv)
   viewer.addPointCloud(cloud, "cloud");
   viewer.addPointCloud(cloud_temp, keypoints_color_handler, "keypoints");
   viewer.setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 7, "keypoints");
-  
+
   while(!viewer.wasStopped ())
   {
   viewer.spinOnce ();
   }
-*/  
+*/
 
-  
+
   return 0;
-  
+
 }

@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  * $Id: $
- * @brief This file is the execution node of the Human Tracking 
+ * @brief This file is the execution node of the Human Tracking
  * @authors Koen Buys, Anatoly Baksheev
  **/
 
@@ -45,9 +45,9 @@
 #include <pcl/exceptions.h>
 #include <pcl/console/parse.h>
 #include <pcl/console/print.h>
-#include <pcl/gpu/containers/initialization.h>
-#include <pcl/gpu/people/people_detector.h>
-#include <pcl/gpu/people/colormap.h>
+//#include <pcl/gpu/containers/initialization.h>
+//#include <pcl/gpu/people/people_detector.h>
+//#include <pcl/gpu/people/colormap.h>
 #include <pcl/visualization/image_viewer.h>
 #include <pcl/io/openni_grabber.h>
 #include <pcl/io/oni_grabber.h>
@@ -85,7 +85,7 @@ struct SampledScopeTime : public StopWatch
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-string 
+string
 make_name(int counter, const char* suffix)
 {
   char buf[4096];
@@ -93,7 +93,7 @@ make_name(int counter, const char* suffix)
   return buf;
 }
 
-template<typename T> void 
+template<typename T> void
 savePNGFile(const std::string& filename, const pcl::gpu::DeviceArray2D<T>& arr)
 {
   int c;
@@ -248,7 +248,7 @@ class PeoplePCDApp
       typedef boost::shared_ptr<openni_wrapper::Image> ImagePtr;
 
       boost::function<void (const boost::shared_ptr<const PointCloud<PointXYZRGBA> >&)> func1 = boost::bind (&PeoplePCDApp::source_cb1, this, _1);
-      boost::function<void (const ImagePtr&, const DepthImagePtr&, float constant)> func2 = boost::bind (&PeoplePCDApp::source_cb2, this, _1, _2, _3);                  
+      boost::function<void (const ImagePtr&, const DepthImagePtr&, float constant)> func2 = boost::bind (&PeoplePCDApp::source_cb2, this, _1, _2, _3);
       boost::signals2::connection c = cloud_cb_ ? capture_.registerCallback (func1) : capture_.registerCallback (func2);
 
       {
@@ -359,7 +359,7 @@ int main(int argc, char** argv)
     // executing
     app.startMainLoop ();
   }
-  catch (const pcl::PCLException& e) { cout << "PCLException: " << e.detailedMessage() << endl; }  
+  catch (const pcl::PCLException& e) { cout << "PCLException: " << e.detailedMessage() << endl; }
   catch (const std::runtime_error& e) { cout << e.what() << endl; }
   catch (const std::bad_alloc& /*e*/) { cout << "Bad alloc" << endl; }
   catch (const std::exception& /*e*/) { cout << "Exception" << endl; }

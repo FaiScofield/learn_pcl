@@ -43,7 +43,7 @@
 #include <pcl/point_cloud.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/keypoints/harris_3d.h>
-
+#include <pcl/common/time.h>
 int
 main(int argc, char** argv)
 {
@@ -63,6 +63,7 @@ main(int argc, char** argv)
     return (-1);
   }
 
+  pcl::ScopeTime scope_time("~");
   pcl::HarrisKeypoint3D <pcl::PointXYZRGB, pcl::PointXYZI> detector;
   pcl::PointCloud<pcl::PointXYZI>::Ptr keypoints (new pcl::PointCloud<pcl::PointXYZI>);
   detector.setNonMaxSupression (true);

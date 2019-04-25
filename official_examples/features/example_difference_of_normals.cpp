@@ -23,7 +23,7 @@
 #include <pcl/filters/voxel_grid.h>
 
 #include <pcl/features/don.h>
-
+#include <pcl/common/time.h>
 #ifdef PCL_ONLY_CORE_POINT_TYPES
 #include <pcl/features/impl/normal_3d_omp.hpp>
 #include <pcl/segmentation/impl/extract_clusters.hpp>
@@ -76,13 +76,10 @@ int main (int argc, char *argv[])
 
   SearchPtr tree;
 
-  if (cloud->isOrganized ())
-  {
+  if (cloud->isOrganized ()) {
     tree.reset (new pcl::search::OrganizedNeighbor<PointT> ());
-  }
-  else
-  {
-      tree.reset (new pcl::search::KdTree<PointT> (false));
+  } else {
+    tree.reset (new pcl::search::KdTree<PointT> (false));
   }
 
   tree->setInputCloud (cloud);

@@ -1,12 +1,12 @@
-#include "openni_capture.h"
+#include "../include/openni_capture.h"
 
 #include <string>
 #include <pcl/console/parse.h>
 
-int 
+int
 main (int argc, char ** argv)
 {
-  if (argc < 2) 
+  if (argc < 2)
   {
     pcl::console::print_info ("Syntax is: %s output_filename <options>\n", argv[0]);
     pcl::console::print_info ("  where options are:\n");

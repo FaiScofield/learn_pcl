@@ -1,4 +1,4 @@
-#include "object_recognition.h"
+#include "../include/object_recognition.h"
 
 #include <string>
 #include <sstream>
